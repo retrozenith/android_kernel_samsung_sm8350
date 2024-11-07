@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2017-2020 The Linux Foundation. All rights reserved.
- * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
  *
  * Permission to use, copy, modify, and/or distribute this software for
  * any purpose with or without fee is hereby granted, provided that the
@@ -205,6 +205,10 @@
 #define WLAN_MAX_HEOP_IE_LEN              16
 #define WLAN_HEOP_OUI_TYPE                "\x24"
 #define WLAN_HEOP_OUI_SIZE                1
+#define WLAN_MIN_HECAP_IE_LEN             22
+#define WLAN_MAX_HECAP_IE_LEN             55
+#define WLAN_HE_MCS_MAP_LEN               2
+#define WLAN_INVALID_RX_MCS_MAP           0xFFFF
 
 #define WLAN_HEOP_FIXED_PARAM_LENGTH       7
 #define WLAN_HEOP_VHTOP_LENGTH             3
@@ -914,6 +918,7 @@ enum wlan_status_code {
 #define WLAN_ASE_SHA256_PSK              0x100
 #define WLAN_ASE_WPS                     0x200
 
+#define RSN_CAP_MFP_DISABLED 0x00
 #define RSN_CAP_MFP_CAPABLE 0x80
 #define RSN_CAP_MFP_REQUIRED 0x40
 

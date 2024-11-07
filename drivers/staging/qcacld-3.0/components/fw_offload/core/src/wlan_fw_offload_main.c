@@ -23,9 +23,6 @@
 #include "cds_api.h"
 #include "wma.h"
 #include "wlan_fwol_tgt_api.h"
-#ifdef SEC_CONFIG_PSM_SYSFS
-extern int wlan_hdd_sec_get_psm(void);
-#endif /* SEC_CONFIG_PSM_SYSFS */
 
 struct wlan_fwol_psoc_obj *fwol_get_psoc_obj(struct wlan_objmgr_psoc *psoc)
 {
@@ -202,12 +199,6 @@ QDF_STATUS fwol_init_neighbor_report_cfg(struct wlan_objmgr_psoc *psoc,
 		cfg_get(psoc, CFG_OFFLOAD_NEIGHBOR_REPORT_CACHE_TIMEOUT);
 	fwol_neighbor_report_cfg->max_req_cap =
 		cfg_get(psoc, CFG_OFFLOAD_NEIGHBOR_REPORT_MAX_REQ_CAP);
-#ifdef SEC_CONFIG_PSM_SYSFS
-	if (wlan_hdd_sec_get_psm()) {
-		fwol_neighbor_report_cfg->enable_bitmask = 0;
-		printk("[WIFI] CFG_OFFLOAD_11K_ENABLE_BITMASK : sec_control_psm = %u", fwol_neighbor_report_cfg->enable_bitmask);
-	}
-#endif /* SEC_CONFIG_PSM_SYSFS */
 
 	return QDF_STATUS_SUCCESS;
 }
@@ -748,7 +739,7 @@ QDF_STATUS fwol_set_ilp_config(struct wlan_objmgr_pdev *pdev,
 			       uint32_t enable_ilp)
 {
 	QDF_STATUS status;
-	struct pdev_params pdev_param;
+	struct pdev_params pdev_param = {};
 
 	pdev_param.param_id = WMI_PDEV_PARAM_PCIE_HW_ILP;
 	pdev_param.param_value = enable_ilp;
@@ -764,7 +755,7 @@ QDF_STATUS fwol_configure_hw_assist(struct wlan_objmgr_pdev *pdev,
 				    bool disable_hw_assist)
 {
 	QDF_STATUS status;
-	struct pdev_params pdev_param;
+	struct pdev_params pdev_param = {};
 
 	pdev_param.param_id = WMI_PDEV_PARAM_DISABLE_HW_ASSIST;
 	pdev_param.param_value = disable_hw_assist;
