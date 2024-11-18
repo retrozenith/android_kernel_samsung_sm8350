@@ -10,7 +10,7 @@ K_MOD_DIR="$(pwd)/out/modules"
 
 # Enviorment Variables
 SRC_DIR="$(pwd)"
-TC_DIR="$HOME/toolchains/neutron-clang"
+TC_DIR="$(pwd)/../toolchains/neutron-clang"
 JOBS="$(nproc --all)"
 MAKE_PARAMS="-j$JOBS -C $SRC_DIR O=$SRC_DIR/out ARCH=arm64 CC=clang CLANG_TRIPLE=$TC_DIR/bin/aarch64-linux-gnu- LLVM=1 CROSS_COMPILE=$TC_DIR/bin/llvm-"
 export PATH="$TC_DIR/bin:$PATH"
@@ -65,7 +65,7 @@ toolchaincheck() {
     else
         echo "Fetching Neutron Clang with antman script"
         echo "Credits to dakkshesh07"
-        mkdir -p "$HOME/toolchains/neutron-clang"; cd "$HOME/toolchains/neutron-clang"; curl -LO "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman"; chmod +x antman; ./antman -S
+        mkdir -p "../toolchains/neutron-clang"; cd "../toolchains/neutron-clang"; curl -LO "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman"; chmod +x antman; ./antman -S
         cd $SRC_DIR
     fi
 }
@@ -119,8 +119,8 @@ help() {
         echo "- Skipping Building ..."
         devicecheck
         ksu
-        ak3
-        copyoutputtozip
+#       ak3
+#       copyoutputtozip
         echo "This build was made using these arguments: $ARGS"
     elif [[ "$ARGS" == *"--help"* ]]; then
         help
@@ -132,7 +132,7 @@ help() {
         make $MAKE_PARAMS $DEFCONFIG
         make $MAKE_PARAMS
         make $MAKE_PARAMS INSTALL_MOD_PATH=modules INSTALL_MOD_STRIP=1 modules_install
-        ak3
-        copyoutputtozip
+#       ak3
+#       copyoutputtozip
         echo "This build was made using these arguments: $ARGS"
     fi

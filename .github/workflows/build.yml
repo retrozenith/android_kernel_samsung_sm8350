@@ -5,7 +5,7 @@ on:
   pull_request:
   push:
     branches:
-      - 'android-14'
+      - 'android-14_stable'
 
 jobs:
   build_aqua:
@@ -37,10 +37,6 @@ jobs:
           curl -LO "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman"; chmod +x antman; ./antman -S; ./antman --patch=glibc
           cd "$KERNEL_DIR"
 
-      - name: Fetch AnyKernel3
-        run: |
-          git clone https://github.com/glikched/AnyKernel3 -b r9q ./AnyKernel3
-
       - name: Build Kernel Clean
         run: |
           source ./build_script.sh ${{ matrix.target }}
@@ -55,32 +51,29 @@ jobs:
 #         source ./build_script.sh ${{ matrix.target }} --ksu
 #         cp ./AnyKernel3/AQUA* ./
 
-      - name: Format Date
-        id: format_date
-        run: echo "bucharest_time=$(TZ='Europe/Bucharest' date +'%Y-%m-%d %T %Z')" >> $GITHUB_ENV
+#     - name: Format Date
+#       id: format_date
+#       run: echo "bucharest_time=$(TZ='Europe/Bucharest' date +'%Y-%m-%d %T %Z')" >> $GITHUB_ENV
 
-      - name: Publish to GitHub
-        id: release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: AQUA*
-          name: AQUA-CI_${{ github.run_number }}
-          tag_name: ${{ github.run_number }}
-          body: |
-            **Release Notes -** :droplet: **AQUA Kernel** :droplet:
-
-            - **Kernel Version:** 5.4.259
-            - **Clang Version:** Neutron-clang
-            - **Release Date (Bucharest Time):** ${{ steps.format_date.outputs.bucharest_time }}
-            - **Run Number:** ${{ github.run_number }}
-
-            :rocket: *Built with love by GitHub Actions.*
-        env:
-          GITHUB_TOKEN: ${{ secrets.TEST }}
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: AQUA-CI_${{ github.run_number }}-${{ matrix.target }}-artifacts
-          path: |
-            ./AQUA*.zip
-          compression-level: 0
+#     - name: Publish to GitHub
+#       id: release
+#       uses: softprops/action-gh-release@v1
+#       with:
+#         files: AQUA*
+#         name: AQUA-CI_${{ github.run_number }}
+#         tag_name: ${{ github.run_number }}
+#         body: |
+#           **Release Notes -** :droplet: **AQUA Kernel** :droplet:
+#           - **Kernel Version:** 5.4.259
+#           - **Clang Version:** Neutron-clang
+#           - **Release Date (Bucharest Time):** ${{ steps.format_date.outputs.bucharest_time }}
+#           - **Run Number:** ${{ github.run_number }}
+#           :rocket: *Built with love by GitHub Actions.*
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.TEST }}
+#     - uses: actions/upload-artifact@v4
+#       with:
+#         name: AQUA-CI_${{ github.run_number }}-${{ matrix.target }}-artifacts
+#         path: |
+#           ./AQUA*.zip
+#         compression-level: 0
